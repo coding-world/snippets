@@ -1,0 +1,20 @@
+begin
+	button = KEY_UP
+	prog = slidepuzzle
+	config = up
+end
+begin 
+	button = KEY_DOWN
+	prog = slidepuzzle
+	config = down
+end
+begin
+	button = KEY_LEFT
+	prog = slidepuzzle
+	config = left
+end
+begin 
+	button = KEY_RIGHT
+	prog = slidepuzzle
+	config = right
+end
