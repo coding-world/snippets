@@ -67,26 +67,27 @@ try:
     while True:
         input = keypad()
 
-        if input == "#":
-            if len(last) and len(current):
+        if input == "#":  # enter
+            if last != "" and current != "":
                 current = calc(operator, last, current)
                 operator = ""
                 last = ""
-        elif input == "*":
+        elif input == "*":  # clear
             last = ""
             current = ""
             operator = ""
-        elif type(input) is int:
+        elif type(input) is int:  # number
             current += str(input)
-        else:
-            if len(operator) and current == "":
-                operator = input
-            elif len(last) and len(current):
-                last = calc(operator, last, current)
-            else:
-                last = current
-            current = ""
+        elif operator != "" and current == "":  # switch operator
             operator = input
+        elif last != "" and current != "":  # calculate and set operator
+            operator = input
+            last = calc(operator, last, current)
+            current = ""
+        elif current != "":  # set operator
+            operator = input
+            last = current
+            current = ""
 
         show()
         time.sleep(0.2)
