@@ -1,9 +1,6 @@
 import RPi.GPIO as gpio
-import time
-
-import board, digitalio
+import time, board, digitalio, adafruit_ssd1306
 from PIL import Image, ImageDraw, ImageFont
-import adafruit_ssd1306
 
 RESET_PIN = digitalio.DigitalInOut(board.D4)
 i2c = board.I2C()
@@ -37,18 +34,7 @@ def keypad():
                         pass
                     return char
             gpio.output(column[j], 1)
-    return False
 
-
-def show():
-    image = Image.new("1", (oled.width, oled.height))
-    draw = ImageDraw.Draw(image)
-    draw.text((0, 0), last + operator + current, font=font, fill=255)
-    draw.text((0, 30), "-------------------------", font=font, fill=255)
-    draw.text((0, 46), current, font=font, fill=255)
-
-    oled.image(image)
-    oled.show()
 
 def calc(operator, a, b):
     a, b = float(a), float(b)
@@ -63,6 +49,17 @@ def calc(operator, a, b):
 last = ""
 current = ""
 operator = ""
+
+
+def show():
+    image = Image.new("1", (oled.width, oled.height))
+    draw = ImageDraw.Draw(image)
+    draw.text((0, 0), last + operator + current, font=font, fill=255)
+    draw.text((0, 30), "-------------------------", font=font, fill=255)
+    draw.text((0, 46), current, font=font, fill=255)
+    oled.image(image)
+    oled.show()
+
 
 show()
 
@@ -81,7 +78,7 @@ try:
             operator = ""
         elif type(input) is int:
             current += str(input)
-        elif type(input) is str:
+        else:
             if len(operator) and current == "":
                 operator = input
             elif len(last) and len(current):
@@ -93,5 +90,6 @@ try:
 
         show()
         time.sleep(0.2)
+
 except KeyboardInterrupt:
     gpio.cleanup()
