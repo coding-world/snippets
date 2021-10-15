@@ -38,12 +38,12 @@ def keypad():
 
 def calc(operator, a, b):
     a, b = float(a), float(b)
-    return str({
+    return str(round({
         '+': lambda: a + b,
         '-': lambda: a - b,
         'x': lambda: a * b,
         '/': lambda: a / b,
-    }.get(operator)())[:8]
+    }.get(operator)(), 8))
 
 
 last = ""
@@ -81,8 +81,8 @@ try:
         elif operator != "" and current == "":  # switch operator
             operator = input
         elif last != "" and current != "":  # calculate and set operator
-            operator = input
             last = calc(operator, last, current)
+            operator = input
             current = ""
         elif current != "":  # set operator
             operator = input
