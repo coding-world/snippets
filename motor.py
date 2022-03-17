@@ -30,7 +30,6 @@ def move(steps):
     GPIO.output(pinout[0], True)
     for i in range(-steps):
       for j in range(3, -1, -1):
-        print(j)
         microstep((j+1)%4, j)
     GPIO.output(pinout[0], False)
 
